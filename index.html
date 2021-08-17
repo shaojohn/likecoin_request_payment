@@ -7,34 +7,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
 		integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-	<script>
-
-
-		function copyToClipboard(element) {
-			var $temp = $("<input>");
-			$("body").append($temp);
-			$temp.val($(element).text()).select();
-			document.execCommand("copy");
-			$temp.remove();
-			$(".block").animate({ "left": "+=100px" }, "fast");
-			$(".block").animate({ "left": "-=100px" }, "slow");
-		}
-
-		function genLink() {
-
-			var likerid = $('#likerid').val();
-			var amount = $('#amount').val();
-
-			var link = 'https://like.co/in/widget/pay?to=' + likerid + '&amount=' + amount;
-
-			$('#paymentLink').attr("href", link);
-
-			$('#paymentLink').text(link);
-		}
-
-	</script>
-
+		<script type="text/javascript" src="qrcode.min.js"></script>
 </head>
 
 <body>
@@ -54,8 +27,52 @@
 	<br />
 	<br />
 	<button type="button" onclick="copyToClipboard('#paymentLink')">複製鏈接</button>
-	<p class="block" Style="position: absolute;left:-70px">已複製！</p>
+	<p class="block" style="position: absolute;left:-70px; margin-bottom:50px">已複製！</p>
+
+	<div style="margin-bottom:50px"></div>
+	<div id="qrcode" st></div>
 
 </body>
+
+<script>
+
+
+	var qrcode = new QRCode("qrcode", {
+		text: "https://like.co/in/widget/pay?to=shaojohnwj&amount=166",
+		width: 128,
+		height: 128,
+		colorDark : "#000000",
+		colorLight : "#ffffff",
+		correctLevel : QRCode.CorrectLevel.H
+	});
+
+	function copyToClipboard(element) {
+		var $temp = $("<input>");
+		$("body").append($temp);
+		$temp.val($(element).text()).select();
+		document.execCommand("copy");
+		$temp.remove();
+		$(".block").animate({ "left": "+=100px" }, "fast");
+		$(".block").animate({ "left": "-=100px" }, "slow");
+	}
+
+	function genLink() {
+
+		var likerid = $('#likerid').val();
+		var amount = $('#amount').val();
+
+		var link = 'https://like.co/in/widget/pay?to=' + likerid + '&amount=' + amount;
+
+		$('#paymentLink').attr("href", link);
+
+		$('#paymentLink').text(link);
+
+		qrcode.clear(); 
+		qrcode.makeCode(link);	
+	}
+
+	
+
+</script>
 
 </html>
